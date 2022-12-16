@@ -1,0 +1,132 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Packaged versions</title>
+<link rel="stylesheet" href="fonts/iosevka/iosevka.css">
+<style type="text/css">
+  html {
+    background: #2e3436;
+    color: #eeeeec;
+    font-family: Iosevka Web;
+    font-size: 0.9em;
+    font-feature-settings: "calt" 0;
+  }
+  .distrotable {
+    margin-bottom: 2rem;
+  }
+  td, th {
+    white-space: nowrap;
+    padding: 0.1rem 0.2rem;
+  }
+  .odd {
+    background: #555753;
+  }
+  .even {
+  }
+
+  a {
+    color: #729fcf;
+  }
+  .info {
+    color: #fce94f;
+  }
+  .warn {
+    color: #ef2929;
+  }
+  .crit {
+    background: #a40000;
+  }
+  .backports, footer {
+    font-size: 0.9rem;
+    color: #babdb6;
+  }
+</style>
+<body>
+  <table class="distrotable">
+    <tr>
+      <th>distro</th>
+      <th>released</th>
+      <th>EOL</th>
+      <th>LTS</th>
+    {%- for package in packages %}
+      <th title="{% if package.min %}&gt;= {{ package.min }}{% endif %}{% if package.max %}
+&lt; {{ package.max }}{% endif %}" style="text-decoration: underline; text-decoration-style: dotted;">{{ package.id }}</th>
+    {%- endfor %}
+    </tr>
+
+{#
+    <tr>
+      <td colspan="4">
+    {%- for package in packages %}
+      <td>{% if package.min %}&gt;= {{ package.min }}{% endif %}</td>
+    {%- endfor %}
+    </tr>
+
+    <tr>
+      <td colspan="4">
+    {%- for package in packages %}
+      <td>{% if package.max %}&lt; {{ package.max }}{% endif %}</td>
+    {%- endfor %}
+    </tr>
+#}
+
+  {% for distro, line in lines.items() %}
+    <tr class="{{ loop.cycle('odd', 'even') }}">
+      <td>{{ distro.distro }} {{ distro.version }}{% if distro.codename %} ({{ distro.codename }}){% endif %}</td>
+      <td{% if not distro.is_released(now) %} class="info"{%- endif %}>{{ distro.released or ''}}</td>
+      <td{% if distro.is_eol(now) %} class="warn"{% endif %}>{{ distro.eol or '' }}</td>
+      <td>{{ distro.lts or '' }}</td>
+      {%- for package, pv in line.items() %}
+      {%- set clsjoiner = joiner(' ') %}
+      <td class="
+        {%- if pv.is_lowest %}
+          {{- clsjoiner() }}info
+        {%- endif %}
+
+        {%- if pv.version is none
+            or (pv.package.min is not none and pv.version < pv.package.min)
+            or (pv.package.max is not none and pv.version > pv.package.max) %}
+          {%- if pv.backport is not none
+                and (pv.package.min is none or pv.backport > pv.package.min)
+                and (pv.package.max is none or pv.backport < pv.package.max) %}
+              {{- clsjoiner() }}warn
+            {%- else %}
+              {{- clsjoiner() }}crit
+            {%- endif %}
+        {%- endif %}">{{ pv.version or '&mdash;' }}</td>
+      {%- endfor %}
+    </tr>
+    <tr class="backports">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {%- for package, pv in line.items() %}
+      <td>{{ pv.backport or '' }}</td>
+      {%- endfor %}
+    </tr>
+  {% endfor %}
+  </table>
+
+  <table>
+    <tr><th colspan="3">key</th></tr>
+    <tr><td class="">version in default repo</td></tr>
+    <tr><td class="backports">backports/EPEL/...</td></tr>
+    <tr><td class="info">lowest supported</td></tr>
+    <tr><td class="crit">unsupported</td></tr>
+    <tr><td class="warn">unsupported, but backport is supported</td></tr>
+  </table>
+
+  <footer>
+    <p>data source: <a href="https://repology.org/">repology.org</a></p>
+    <p>last updated: {{ now.strftime('%Y-%m-%d %H:%M:%S %Z') }}</p>
+  </footer>
+</body>
+
+{#
+{% for package in packages %}
+<td><img src="https://repology.org/badge/version-for-repo/{{ distro.id }}/{{ package.id }}.svg?header=
+  {%- if package.minversion is not none%}&minversion={{ package.minversion }}{% endif %}"></td>
+{% endfor %}
+#}
+
+{#- vim: set ts=2 sts=2 sw=2 et: #}

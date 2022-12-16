@@ -1,0 +1,356 @@
+#
+# GENERAL
+#
+
+# Which distros to support:
+# - https://www.ovhcloud.com/en/public-cloud/public-image-catalog/
+# - https://docs.hetzner.com/robot/dedicated-server/operating-systems/standard-images/
+# - https://www.digitalocean.com/products/droplets/
+# - https://cloud.google.com/compute/docs/images/os-details
+# - https://docs.microsoft.com/en-us/azure/virtual-machines/linux/endorsed-distros
+# - https://docs.microsoft.com/en-us/azure/virtual-machines/linux/overview#distributions
+#
+# TODO: OpenSUSE? Arch?
+
+# Which distros not to support:
+# - CentOS for https://blog.centos.org/2020/12/future-is-centos-stream/
+#   (esp. for this: https://wiki.centos.org/About/Product vs
+#   http://web.archive.org/web/20201101131417/http://wiki.centos.org/About/Product)
+# - https://coreos.com/os/eol/
+# - Ubuntu >= 20.04 for the ``snap`` thingy (instead, plain debian should be OK)
+# - Fedora (too short release cycle, too much breakage), any rolling release
+#   (Arch, openSUSE Tumbleweed)
+
+#
+# AlmaLinux and other RHEL-compatible
+#
+# https://almalinux.org/
+# https://en.wikipedia.org/wiki/AlmaLinux
+# https://wiki.centos.org/About/Product
+
+# CentOS 7 unsupported for too old gcc (4.8)
+
+[distro.'AlmaLinux'.'8']
+# https://wiki.almalinux.org/release-notes/8.3.html
+released = 2021-03-30
+eol = 2029-05-07
+repo = 'almalinux_8'
+backports = 'epel_8'
+
+[distro.'AlmaLinux'.'9']
+# https://wiki.almalinux.org/release-notes/9.0.html
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/9.0_release_notes/index
+# https://almalinux.org/blog/almalinux-9-now-available/
+released = 2022-05-26
+eol = 2032-05-17
+repo = 'almalinux_9'
+backports = 'epel_9'
+
+
+[distro.'CentOS'.'8']
+released = 2019-09-24
+eol = 2021-12-31
+lts = 'yolo'
+repo = 'centos_8'
+backports = 'epel_8'
+
+
+#
+# Debian
+#
+# https://wiki.debian.org/DebianReleases
+# https://wiki.debian.org/LTS
+# https://en.wikipedia.org/wiki/Debian_version_history
+
+[distro.'Debian'.'10']
+# https://www.debian.org/releases/buster/
+codename = 'buster'
+released = 2019-07-06
+eol = 2022
+lts = 2024-06-30
+repo = 'debian_10'
+backports = 'debian_10_backports'
+
+[distro.'Debian'.'11']
+codename = 'bullseye'
+released = 2021-08-14
+eol = 2024
+repo = 'debian_11'
+backports = 'debian_11_backports'
+
+[distro.'Debian'.'12']
+codename = 'bookworm'
+released = 2023
+eol = 2026
+repo = 'debian_12'
+backports = 'debian_12_backports'
+
+#
+# Fedora
+#
+# https://en.wikipedia.org/wiki/Fedora_version_history
+# NOTE: the EOL dates are in version+2 (becuse Fedora).
+
+#[distro.'Fedora'.'32']
+## https://fedorapeople.org/groups/schedule/f-32/f-32-key-tasks.html
+## https://fedorapeople.org/groups/schedule/f-34/f-34-key-tasks.html
+#released = 2020-04-28
+#eol = 2021-05-18
+#repo = 'fedora_32'
+#backports = 'rpmfusion_fedora_32'
+#
+#[distro.'Fedora'.'33']
+## https://fedorapeople.org/groups/schedule/f-33/f-33-key-tasks.html
+## https://fedorapeople.org/groups/schedule/f-35/f-35-key-tasks.html
+#released = 2020-10-27
+#eol = 2021-11-16
+#repo = 'fedora_33'
+#backports = 'rpmfusion_fedora_33'
+#
+#[distro.'Fedora'.'34']
+## https://fedorapeople.org/groups/schedule/f-34/f-34-key-tasks.html
+## https://fedorapeople.org/groups/schedule/f-36/f-36-key-tasks.html
+#released = 2021-04-20
+#eol = 2022-05-17
+#repo = 'fedora_34'
+
+[distro.'Fedora'.'35']
+released = 2021-11-02
+eol = 2022-12-07
+repo = 'fedora_35'
+
+[distro.'Fedora'.'36']
+released = 2022-04-19
+eol = 2023-05-24
+repo = 'fedora_36'
+
+[distro.'Fedora'.'37']
+released = 2022-10-18
+eol = 2023-11-22
+repo = 'fedora_37'
+
+#
+# openSUSE
+#
+# This is tracking SLES, Leap *X*.*Y* version tracks SLES *X* SP *Y*.
+# SLES has ~10 year LTS, but software versions change.
+# https://en.wikipedia.org/wiki/OpenSUSE_version_history
+# https://en.wikipedia.org/wiki/SUSE_Linux_Enterprise_Server#End-of-support_schedule
+
+#[distro.'openSUSE Leap'.'15.1']
+#released = 2019-05-22
+#eol = 2021-01-31
+#repo = 'opensuse_leap_15_1'
+
+[distro.'openSUSE Leap'.'15.2']
+released = 2020-07-02
+eol = 2021-12-31
+repo = 'opensuse_leap_15_2'
+
+[distro.'openSUSE Leap'.'15.3']
+# https://www.suse.com/c/closing-the-leap-gap-src/
+# https://www.suse.com/lifecycle/
+released = 2021-06-02
+eol = 2028-07-31
+lts = 2031-07-31
+repo = 'opensuse_leap_15_3'
+
+[distro.'openSUSE Leap'.'15.4']
+released = 2022-06-08
+eol = 2028-07-31
+lts = 2031-07-31
+repo = 'opensuse_leap_15_4'
+
+#
+# Ubuntu
+#
+# https://en.wikipedia.org/wiki/Ubuntu_version_history
+
+#[distro.'Ubuntu'.'16.04']
+#codename = 'xenial'
+#released = '2016-04-21'
+#eol = '2021-04-30'
+#lts = '2024-04-30'
+#repo = 'ubuntu_16_04'
+#backports = 'ubuntu_16_04_backports'
+
+[distro.'Ubuntu'.'18.04']
+codename = 'bionic'
+released = 2018-04-26
+eol = 2023-04-30
+lts = 2028-04-30
+repo = 'ubuntu_18_04'
+backports = 'ubuntu_18_04_backports'
+# https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
+
+[distro.'Ubuntu'.'20.04']
+codename = 'focal'
+released = 2020-04-23
+eol = 2025-04-30
+lts = 2030-04-30
+repo = 'ubuntu_20_04'
+backports = 'ubuntu_20_04_backports'
+# https://wiki.ubuntu.com/FocalFossa/ReleaseNotes
+
+#[distro.'Ubuntu'.'20.10']
+#codename = 'groovy'
+#released = 2020-10-22
+#eol = 2021-07-31
+#repo = 'ubuntu_20_10'
+#backports = 'ubuntu_20_10_backports'
+
+#[distro.'Ubuntu'.'21.04']
+#codename = 'hirsute'
+#released = 2021-04-22
+#eol = 2022-01-30
+#repo = 'ubuntu_21_04'
+#backports = 'ubuntu_21_04_backports'
+
+#[distro.'Ubuntu'.'21.10']
+#codename = 'impish'
+#released = 2021-10-14
+#eol = 2022-07-31
+#repo = 'ubuntu_21_04'
+#backports = 'ubuntu_21_04_backports'
+
+[distro.'Ubuntu'.'22.04']
+codename = 'jammy'
+released = 2022-04-21
+eol = 2027-04-30
+lts = 2032-04-30
+repo = 'ubuntu_22_04'
+backports = 'ubuntu_22_04_backports'
+
+
+#
+# PACKAGES
+#
+
+# TODO patched tomlc99
+
+# - protobuf python module >= 3.0
+# - curl >= 7.47 as a temporary measure for Scripts/download
+# - pytest for testing
+
+
+[package.debhelper]
+min = '13'
+
+# There are three options we support:
+#
+# - kernel 5.4 with fsgsbase patchset and oot/dcap driver
+# - kernel 5.9 with oot/dcap driver
+# - kernel 5.11 or later with upstream driver
+[package.linux]
+min = '5.4'
+
+# Glibc is a special case in the table. We provide our own, optimised glibc, so
+# the version above is the glibc that the apps would expect to see, so we have to
+# provide that version **or later** (not as usual, support this version *or
+# earlier*).
+# 
+# https://qa.debian.org/madison.php?table=all&a=all,amd64&package=binutils,bison,gcc,libc6,make
+
+# to compile glibc: gawk 3.1.2, bison 2.7, and
+# - for glibc-2.23: (gcc 4.7, binutils 2.22, gmake 3.79)
+# - for glibc-2.27: (gcc 4.9, binutils 2.25, gmake 3.79)
+# - for glibc-2.31: gcc 6.2, (binutils 2.25, gmake 4.0, python 3.4)
+[package.'glibc']
+min = '2.28'
+max = '2.35'
+
+[package.'gcc']
+min = '5.3'
+
+[package.'binutils']
+min = '2.26'
+
+[package.'python']
+min = '3.6'
+
+[package.'meson']
+min = '0.55'
+
+[package.'ninja']
+min = '1.10'
+
+[package.'cjson']
+min = '1.7.10'
+
+[package.'uthash']
+# TODO patch to remove #include from stdlib
+min = '1.9.9'
+
+[package.'mbedtls']
+# https://github.com/oscarlab/graphene/pull/1372
+# https://lists.trustedfirmware.org/pipermail/mbed-tls/2020-March/000004.html
+# https://lists.trustedfirmware.org/pipermail/mbed-tls/2020-April/000007.html
+min = '2.21'
+
+[package.'protobuf-c']
+min = '1.2'
+
+[package.'python:toml']
+min = '0.10'
+
+[package.'python:tomli']
+[package.'python:tomli-w']
+[package.'python:tomlkit']
+
+[package.'python:cryptography']
+[package.'python:pyelftools']
+alt-names = [
+    'python:elftools',
+    'pyelftools',
+]
+
+[package.'protobuf']
+alt-names = [
+    'python:protobuf',
+]
+#min = none
+
+[package.'python:sphinx']
+min = '1.8'
+
+[package.'python:docutils']
+
+[package.'python:sphinx-rtd-theme']
+alt-names = [
+    'sphinx-rtd-theme',
+]
+min = '1'
+
+[package.'python:breathe']
+alt-names = [
+    'breathe',
+]
+
+#[package.'python:recommonmark']
+#min = None
+
+#[package.'recommonmark']
+#min = None
+
+[package.'libcbor']
+min = '0.5.0'
+
+
+# not a hard dep, meson cmake module recommends this
+[package.'cmake']
+min = '3.17'
+
+[package.'make']
+min = '4.1'
+
+[package.'gawk']
+min = '3.1.2'
+
+[package.'bison']
+min = '2.7'
+
+[package.'rust']
+min = '1.56'
+
+[package.'qemu']
+min = '6.2.0'
