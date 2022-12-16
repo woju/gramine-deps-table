@@ -1,0 +1,42 @@
+# https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+on:
+  schedule:
+    - cron: '23 4 * * *'
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/configure-pages@v2
+      - run: |
+          sudo apt-get -y install \
+            python3-dateutil \
+            python3-httpx \
+            python3-jinja2 \
+            python3-tomli
+      - name: render
+        run: |
+          mkdir -p _site
+          cp -a assets/* _site/
+          ./render.py > _site/index.html
+      - uses: actions/upload-pages-artifact@v1
+      - uses: actions/deploy-pages@v1
+        id: deployment
