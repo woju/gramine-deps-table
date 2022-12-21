@@ -32,11 +32,7 @@ jobs:
             python3-httpx \
             python3-jinja2 \
             python3-tomli
-      - name: render
-        run: |
-          mkdir -p _site
-          cp -a assets/* _site/
-          ./render.py > _site/index.html
+      - run: ./deploy.sh
       - uses: actions/upload-pages-artifact@v1
       - uses: actions/deploy-pages@v1
         id: deployment
