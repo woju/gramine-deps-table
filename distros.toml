@@ -229,7 +229,6 @@ backports = 'ubuntu_22_04_backports'
 # TODO patched tomlc99
 
 # - protobuf python module >= 3.0
-# - curl >= 7.47 as a temporary measure for Scripts/download
 # - pytest for testing
 
 
@@ -335,6 +334,8 @@ alt-names = [
 [package.'libcbor']
 min = '0.5.0'
 
+[package.'curl']
+min = '7.84'
 
 # not a hard dep, meson cmake module recommends this
 [package.'cmake']
