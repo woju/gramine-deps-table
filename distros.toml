@@ -18,6 +18,8 @@
 #   http://web.archive.org/web/20201101131417/http://wiki.centos.org/About/Product)
 # - https://coreos.com/os/eol/
 # - Ubuntu >= 20.04 for the ``snap`` thingy (instead, plain debian should be OK)
+# - Ubuntu >= 22.04 for zstd!!! this means we need to build on debian, because
+#   if we build with Ubuntu's dpkg, the packages won't install on debian
 # - Fedora (too short release cycle, too much breakage), any rolling release
 #   (Arch, openSUSE Tumbleweed)
 
