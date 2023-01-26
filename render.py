@@ -5,8 +5,10 @@
 from dataclasses import dataclass
 from distutils.version import LooseVersion
 
+import collections.abc
 import dataclasses
 import datetime
+import pathlib
 import pdb
 import sys
 
@@ -34,6 +36,15 @@ def parse_date(date):
 
     return dateutil.parser.parse(date, default=datetime.date(1970, 12, 31))
 
+# http://stackoverflow.com/a/3233356
+# cf. salt/utils/dictupdate.py
+def update(d, u):
+    for k, v in u.items():
+        if isinstance(v, collections.abc.Mapping):
+            d[k] = update(d.get(k, {}), v)
+        else:
+            d[k] = v
+    return d
 
 @dataclass
 class Distro:
@@ -131,10 +142,14 @@ class PackageVersion:
 
 
 @click.command()
-@click.argument('file', type=click.File('rb'), default='distros.toml')
+@click.argument('file', type=click.File('rb'), nargs=-1)
 def main(file):
-    with file:
-        data = tomli.load(file)
+    data = {}
+    if not file:
+        file = [open(path) for path in pathlib.Path('.').glob('data/*.toml')]
+    for fd in file:
+        with fd:
+            update(data, tomli.load(fd))
 
     distros = []
     for distro, versions in data['distro'].items():
