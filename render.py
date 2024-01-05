@@ -146,7 +146,7 @@ class PackageVersion:
 def main(file):
     data = {}
     if not file:
-        file = [open(path) for path in pathlib.Path('.').glob('data/*.toml')]
+        file = [open(path, 'rb') for path in pathlib.Path('.').glob('data/*.toml')]
     for fd in file:
         with fd:
             update(data, tomli.load(fd))
