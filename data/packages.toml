@@ -32,7 +32,7 @@ min = '5.4'
 # - for glibc-2.31: gcc 6.2, (binutils 2.25, gmake 4.0, python 3.4)
 [package.'glibc']
 min = '2.28'
-max = '2.35'
+max = '2.38'
 
 [package.'gcc']
 min = '5.3'
@@ -41,36 +41,32 @@ min = '5.3'
 min = '2.26'
 
 [package.'python']
-min = '3.6'
+min = '3.10'
 
 [package.'meson']
-min = '0.55'
+min = '0.56'
 
 [package.'ninja']
 min = '1.8'
 
 [package.'cjson']
-min = '1.7.10'
+min = '1.7.12'
 
 [package.'uthash']
 # TODO patch to remove #include from stdlib
-min = '1.9.9'
+min = '2.1.0'
 
 [package.'mbedtls']
 # https://github.com/oscarlab/graphene/pull/1372
 # https://lists.trustedfirmware.org/pipermail/mbed-tls/2020-March/000004.html
 # https://lists.trustedfirmware.org/pipermail/mbed-tls/2020-April/000007.html
-min = '2.21'
+min = '3.5.0'
 
 [package.'protobuf-c']
 min = '1.2'
 
-[package.'python:toml']
-min = '0.10'
-
 [package.'python:tomli']
 [package.'python:tomli-w']
-[package.'python:tomlkit']
 
 [package.'python:cryptography']
 [package.'python:pyelftools']
@@ -86,7 +82,7 @@ alt-names = [
 #min = none
 
 [package.'python:sphinx']
-min = '1.8'
+min = '3.4'
 
 [package.'python:docutils']
 
@@ -101,11 +97,16 @@ alt-names = [
     'breathe',
 ]
 
-#[package.'python:recommonmark']
+[package.'python:recommonmark']
+alt-names = [
+    'recommonmark',
+]
 #min = None
 
-#[package.'recommonmark']
-#min = None
+[package.'python:furo']
+alt-names = [
+    'furo',
+]
 
 [package.'libcbor']
 min = '0.5.0'

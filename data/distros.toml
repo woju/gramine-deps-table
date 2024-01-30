@@ -10,7 +10,7 @@
 # - https://docs.microsoft.com/en-us/azure/virtual-machines/linux/endorsed-distros
 # - https://docs.microsoft.com/en-us/azure/virtual-machines/linux/overview#distributions
 #
-# TODO: OpenSUSE? Arch?
+# TODO: Arch?
 
 # Which distros not to support:
 # - CentOS for https://blog.centos.org/2020/12/future-is-centos-stream/
@@ -23,8 +23,7 @@
 # - Fedora (too short release cycle, too much breakage), any rolling release
 #   (Arch, openSUSE Tumbleweed)
 
-#
-# AlmaLinux and other RHEL-compatible
+# AlmaLinux and other RHEL-compatible {{{1
 #
 # https://almalinux.org/
 # https://en.wikipedia.org/wiki/AlmaLinux
@@ -56,9 +55,7 @@ lts = 'yolo'
 repo = 'centos_8'
 backports = 'epel_8'
 
-
-#
-# Debian
+# Debian {{{1
 #
 # https://wiki.debian.org/DebianReleases
 # https://wiki.debian.org/LTS
@@ -82,15 +79,21 @@ backports = 'debian_11_backports'
 
 [distro.'Debian'.'12']
 codename = 'bookworm'
-released = 2023
+released = 2023-07-10
 eol = 2026
 repo = 'debian_12'
 backports = 'debian_12_backports'
 
+[distro.'Debian'.'13']
+codename = 'trixie'
+released = 2025
+eol = 2028
+repo = 'debian_13'
+backports = 'debian_13_backports'
+
+# Fedora {{{1
 #
-# Fedora
-#
-# https://en.wikipedia.org/wiki/Fedora_version_history
+# https://en.wikipedia.org/wiki/Fedora_Linux_release_history
 # NOTE: the EOL dates are in version+2 (becuse Fedora).
 
 #[distro.'Fedora'.'32']
@@ -131,8 +134,22 @@ released = 2022-10-18
 eol = 2023-11-22
 repo = 'fedora_37'
 
-#
-# openSUSE
+[distro.'Fedora'.'38']
+released = 2023-04-18
+eol = 2024-05-14
+repo = 'fedora_38'
+
+[distro.'Fedora'.'39']
+released = 2023-11-07
+eol = 2024-11-12
+repo = 'fedora_39'
+
+[distro.'Fedora'.'40']
+released = 2024-04-16
+eol = 2025-05-13
+repo = 'fedora_40'
+
+# openSUSE {{{1
 #
 # This is tracking SLES, Leap *X*.*Y* version tracks SLES *X* SP *Y*.
 # SLES has ~10 year LTS, but software versions change.
@@ -153,18 +170,29 @@ repo = 'opensuse_leap_15_2'
 # https://www.suse.com/c/closing-the-leap-gap-src/
 # https://www.suse.com/lifecycle/
 released = 2021-06-02
-eol = 2028-07-31
+eol = 2022-12-31
 lts = 2031-07-31
 repo = 'opensuse_leap_15_3'
 
 [distro.'openSUSE Leap'.'15.4']
 released = 2022-06-08
-eol = 2028-07-31
+eol = 2023-12-31
 lts = 2031-07-31
 repo = 'opensuse_leap_15_4'
 
-#
-# Ubuntu
+[distro.'openSUSE Leap'.'15.5']
+released = 2023-06-07
+eol = 2024-12-31
+lts = 2031-07-31
+repo = 'opensuse_leap_15_5'
+
+[distro.'openSUSE Leap'.'15.6']
+released = 2024 #-06
+eol = 2025
+lts = 2031-07-31
+repo = 'opensuse_leap_15_6'
+
+# Ubuntu #{{{1
 #
 # https://en.wikipedia.org/wiki/Ubuntu_version_history
 
@@ -176,13 +204,13 @@ repo = 'opensuse_leap_15_4'
 #repo = 'ubuntu_16_04'
 #backports = 'ubuntu_16_04_backports'
 
-[distro.'Ubuntu'.'18.04']
-codename = 'bionic'
-released = 2018-04-26
-eol = 2023-04-30
-lts = 2028-04-30
-repo = 'ubuntu_18_04'
-backports = 'ubuntu_18_04_backports'
+#[distro.'Ubuntu'.'18.04']
+#codename = 'bionic'
+#released = 2018-04-26
+#eol = 2023-04-30
+#lts = 2028-04-30
+#repo = 'ubuntu_18_04'
+#backports = 'ubuntu_18_04_backports'
 # https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
 
 [distro.'Ubuntu'.'20.04']
@@ -222,3 +250,15 @@ eol = 2027-04-30
 lts = 2032-04-30
 repo = 'ubuntu_22_04'
 backports = 'ubuntu_22_04_backports'
+
+[distro.'Ubuntu'.'24.04']
+codename = 'noble'
+released = 2024-04-25
+eol = 2029-05-31
+lts = 2034-04-25
+repo = 'ubuntu_24_04'
+backports = 'ubuntu_24_04_backports'
+
+#}}}1
+
+# vim: fdm=marker
