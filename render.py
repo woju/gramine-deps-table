@@ -169,9 +169,17 @@ def main(file):
         for package in packages:
             print(f'package={package}', file=sys.stderr)
             for pkgid in reversed(list(package.all_ids)):
-                resp = http.get(f'https://repology.org/api/v1/projects/{pkgid}/')
-                resp.raise_for_status()
-                pkglist = resp.json()[pkgid]
+                delay = 1
+                while True:
+                    try:
+                        resp = http.get(f'https://repology.org/api/v1/projects/{pkgid}/')
+                        resp.raise_for_status()
+                        pkglist = resp.json()[pkgid]
+                        break
+                    except httpx.ReadTimeout:
+                        print(f'  read timeout, delaying {delay} s', file=sys.stderr)
+                        time.sleep(delay)
+                        delay *= 1.5
 
                 for line in lines.values():
                     for p, pv in line.items():
