@@ -3,7 +3,6 @@
 # Copyright (c) 2020-2022 Wojtek Porczyk <woju@invisiblethingslab.com>
 
 from dataclasses import dataclass
-from distutils.version import LooseVersion
 
 import collections.abc
 import dataclasses
@@ -18,6 +17,18 @@ import httpx
 import jinja2
 import tomli
 
+# Do not use packaging.version.Version! Rationale:
+#   packaging.version.InvalidVersion: Invalid version: '13.3.3~bpo10+1+apertis2'
+# Instead, prefer https://pypi.org/project/looseversion/, however in Debian
+# it's available since trixie, so we'll use distutil's LooseVersion and ignore
+# the warning.
+try:
+    from looseversion import LooseVersion
+except ImportError:
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', DeprecationWarning)
+        from distutils.version import LooseVersion
 
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
@@ -122,7 +133,7 @@ class PackageVersion:
     distro: Distro
     package: Package
 
-    version: LooseVersion = None
+    version:  LooseVersion = None
     backport: LooseVersion = None
 
     @property
