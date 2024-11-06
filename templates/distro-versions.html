@@ -14,7 +14,7 @@
     margin-bottom: 2rem;
     border-collapse: separate;
     border-spacing: 0;
-    margin-left: 12rem;
+    white-space: nowrap;
   }
   .maintable {
     overflow-x: scroll;
@@ -22,25 +22,29 @@
     padding: 0;
     width: 100%;
   }
+
   td, th {
-    white-space: nowrap;
     padding: 0.1rem 0.2rem;
-  }
-  .odd {
-    background: #555753;
-  }
-  .even {
-  }
-  .col-distro {
-    position: absolute;
-    width: 12rem;
-    left: 0;
-    top: auto;
     background: #2e3436;
+    vertical-align: top;
+  }
+  thead th {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+  }
+  thead th:first-child {
+    position: sticky;
+    z-index: 2;
+    left: 0;
     border-right: 0.1rem solid #000;
   }
-  .odd .col-distro {
-    background: #555753;
+  tbody th {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    border-right: 0.1rem solid #000;
+    text-align: left;
   }
 
   a {
@@ -53,8 +57,12 @@
     color: #ef2929;
   }
   .crit {
-    background: #a40000;
+    background: #a40000 !important;
   }
+  .odd td, .odd th {
+    background: #555753;
+  }
+
   .backports, footer {
     font-size: 0.9rem;
     color: #babdb6;
@@ -63,69 +71,52 @@
 <body>
   <div class="maintable">
     <table class="distrotable">
-      <tr>
-        <th class="col-distro">distro</th>
-        <th>released</th>
-        <th>EOL</th>
-        <th>LTS</th>
+      <thead>
+        <tr>
+          <th>distro</th>
+          <th>released</th>
+          <th>EOL</th>
+          <th>LTS</th>
       {%- for package in packages %}
-        <th title="{% if package.min %}&gt;= {{ package.min }}{% endif %}{% if package.max %}
-  &lt; {{ package.max }}{% endif %}" style="text-decoration: underline; text-decoration-style: dotted;">{{ package.id }}</th>
+          <th title="{% if package.min %}&gt;= {{ package.min }}{% endif %}{% if package.max %}
+    &lt; {{ package.max }}{% endif %}" style="text-decoration: underline; text-decoration-style: dotted;">{{ package.id }}</th>
       {%- endfor %}
-      </tr>
+        </tr>
+      </thead>
+      <tbody>
 
-  {#
-      <tr>
-        <td colspan="4">
-      {%- for package in packages %}
-        <td>{% if package.min %}&gt;= {{ package.min }}{% endif %}</td>
-      {%- endfor %}
-      </tr>
+      {% for distro, line in lines.items() %}
+        <tr class="{{ loop.cycle('odd', 'even') }}">
+          <th>{{ distro.distro }} {{ distro.version }}{% if distro.codename %} ({{ distro.codename }}){% endif %}</th>
+          <td{% if not distro.is_released(now) %} class="info"{%- endif %}>{{ distro.released or ''}}</td>
+          <td{% if distro.is_eol(now) %} class="warn"{% endif %}>{{ distro.eol or '' }}</td>
+          <td>{{ distro.lts or '' }}</td>
+          {%- for package, pv in line.items() %}
+          {%- set clsjoiner = joiner(' ') %}
+          <td class="
+            {%- if pv.is_lowest %}
+              {{- clsjoiner() }}info
+            {%- endif %}
 
-      <tr>
-        <td colspan="4">
-      {%- for package in packages %}
-        <td>{% if package.max %}&lt; {{ package.max }}{% endif %}</td>
-      {%- endfor %}
-      </tr>
-  #}
-
-    {% for distro, line in lines.items() %}
-      <tr class="{{ loop.cycle('odd', 'even') }}">
-        <td class="col-distro">{{ distro.distro }} {{ distro.version }}{% if distro.codename %} ({{ distro.codename }}){% endif %}</td>
-        <td{% if not distro.is_released(now) %} class="info"{%- endif %}>{{ distro.released or ''}}</td>
-        <td{% if distro.is_eol(now) %} class="warn"{% endif %}>{{ distro.eol or '' }}</td>
-        <td>{{ distro.lts or '' }}</td>
-        {%- for package, pv in line.items() %}
-        {%- set clsjoiner = joiner(' ') %}
-        <td class="
-          {%- if pv.is_lowest %}
-            {{- clsjoiner() }}info
-          {%- endif %}
-
-          {%- if pv.version is none
-              or (pv.package.min is not none and pv.version < pv.package.min)
-              or (pv.package.max is not none and pv.version > pv.package.max) %}
-            {%- if pv.backport is not none
-                  and (pv.package.min is none or pv.backport > pv.package.min)
-                  and (pv.package.max is none or pv.backport < pv.package.max) %}
-                {{- clsjoiner() }}warn
-              {%- else %}
-                {{- clsjoiner() }}crit
-              {%- endif %}
-          {%- endif %}">{{ pv.version or '&mdash;' }}</td>
-        {%- endfor %}
-      </tr>
-      <tr class="backports">
-        <td class="col-distro">&nbsp;</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        {%- for package, pv in line.items() %}
-        <td>{{ pv.backport or '' }}</td>
-        {%- endfor %}
-      </tr>
+            {%- if pv.version is none
+                or (pv.package.min is not none and pv.version < pv.package.min)
+                or (pv.package.max is not none and pv.version > pv.package.max) %}
+              {%- if pv.backport is not none
+                    and (pv.package.min is none or pv.backport > pv.package.min)
+                    and (pv.package.max is none or pv.backport < pv.package.max) %}
+                  {{- clsjoiner() }}warn
+                {%- else %}
+                  {{- clsjoiner() }}crit
+                {%- endif %}
+            {%- endif %}">{{ pv.version or '&mdash;' }}
+            {%- if pv.backport %}
+              <br/><span class="backports">{{ pv.backport }}</span>
+            {%- endif -%}
+          </td>
+          {%- endfor %}
+        </tr>
     {% endfor %}
+      </tbody>
     </table>
   </div>
 
@@ -145,12 +136,5 @@
     <p>last updated: {{ now.strftime('%Y-%m-%d %H:%M:%S %Z') }}</p>
   </footer>
 </body>
-
-{#
-{% for package in packages %}
-<td><img src="https://repology.org/badge/version-for-repo/{{ distro.id }}/{{ package.id }}.svg?header=
-  {%- if package.minversion is not none%}&minversion={{ package.minversion }}{% endif %}"></td>
-{% endfor %}
-#}
 
 {#- vim: set ft=jinja ts=2 sts=2 sw=2 et: #}
