@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (c) 2020-2022 Wojtek Porczyk <woju@invisiblethingslab.com>
+# SPDX-FileCopyrightText: (c) 2020-2024 Wojtek Porczyk <woju@invisiblethingslab.com>
 
 from dataclasses import dataclass
 
@@ -16,6 +16,8 @@ import click
 import dateutil.parser
 import httpx
 import jinja2
+
+__version__ = '1'
 
 try:
     import tomllib
@@ -181,7 +183,9 @@ def main(file):
         distro: {package: PackageVersion(distro, package) for package in packages}
         for distro in distros}
 
-    with httpx.Client() as http:
+    with httpx.Client(headers={
+        'user-agent': f'gramine-deps-table/{__version__} (+https://woju.github.io/gramine-deps-table/)'
+    }) as http:
         for package in packages:
             print(f'package={package}', file=sys.stderr)
             for pkgid in reversed(list(package.all_ids)):
