@@ -7,7 +7,7 @@ dependencies and software it otherwise interacts with, as packaged by various
 distributions I care about. This is mostly for deciding which versions we can
 require.
 
-Most of the config is in [distros.toml](distros.toml). Also see comments there.
+Most of the config is in [distros.toml](data/distros.toml). Also see comments there.
 
 ## HOWTO
 
