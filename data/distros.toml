@@ -149,6 +149,11 @@ released = 2024-04-16
 eol = 2025-05-13
 repo = 'fedora_40'
 
+[distro.'Fedora'.'41']
+released = 2024-10-29
+eol = 2025-11-19
+repo = 'fedora_41'
+
 # openSUSE {{{1
 #
 # This is tracking SLES, Leap *X*.*Y* version tracks SLES *X* SP *Y*.
@@ -161,24 +166,24 @@ repo = 'fedora_40'
 #eol = 2021-01-31
 #repo = 'opensuse_leap_15_1'
 
-[distro.'openSUSE Leap'.'15.2']
-released = 2020-07-02
-eol = 2021-12-31
-repo = 'opensuse_leap_15_2'
+#[distro.'openSUSE Leap'.'15.2']
+#released = 2020-07-02
+#eol = 2021-12-31
+#repo = 'opensuse_leap_15_2'
 
-[distro.'openSUSE Leap'.'15.3']
+#[distro.'openSUSE Leap'.'15.3']
 # https://www.suse.com/c/closing-the-leap-gap-src/
 # https://www.suse.com/lifecycle/
-released = 2021-06-02
-eol = 2022-12-31
-lts = 2031-07-31
-repo = 'opensuse_leap_15_3'
+#released = 2021-06-02
+#eol = 2022-12-31
+#lts = 2031-07-31
+#repo = 'opensuse_leap_15_3'
 
-[distro.'openSUSE Leap'.'15.4']
-released = 2022-06-08
-eol = 2023-12-31
-lts = 2031-07-31
-repo = 'opensuse_leap_15_4'
+#[distro.'openSUSE Leap'.'15.4']
+#released = 2022-06-08
+#eol = 2023-12-31
+#lts = 2031-07-31
+#repo = 'opensuse_leap_15_4'
 
 [distro.'openSUSE Leap'.'15.5']
 released = 2023-06-07
@@ -187,7 +192,7 @@ lts = 2031-07-31
 repo = 'opensuse_leap_15_5'
 
 [distro.'openSUSE Leap'.'15.6']
-released = 2024 #-06
+released = 2024-06-12
 eol = 2025
 lts = 2031-07-31
 repo = 'opensuse_leap_15_6'
@@ -213,13 +218,13 @@ repo = 'opensuse_leap_15_6'
 #backports = 'ubuntu_18_04_backports'
 # https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
 
-[distro.'Ubuntu'.'20.04']
-codename = 'focal'
-released = 2020-04-23
-eol = 2025-04-30
-lts = 2030-04-30
-repo = 'ubuntu_20_04'
-backports = 'ubuntu_20_04_backports'
+#[distro.'Ubuntu'.'20.04']
+#codename = 'focal'
+#released = 2020-04-23
+#eol = 2025-04-30
+#lts = 2030-04-30
+#repo = 'ubuntu_20_04'
+#backports = 'ubuntu_20_04_backports'
 # https://wiki.ubuntu.com/FocalFossa/ReleaseNotes
 
 #[distro.'Ubuntu'.'20.10']
