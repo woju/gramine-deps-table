@@ -16,7 +16,11 @@ import click
 import dateutil.parser
 import httpx
 import jinja2
-import tomli
+
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 # Do not use packaging.version.Version! Rationale:
 #   packaging.version.InvalidVersion: Invalid version: '13.3.3~bpo10+1+apertis2'
@@ -161,7 +165,7 @@ def main(file):
         file = [open(path, 'rb') for path in pathlib.Path('.').glob('data/*.toml')]
     for fd in file:
         with fd:
-            update(data, tomli.load(fd))
+            update(data, tomllib.load(fd))
 
     distros = []
     for distro, versions in data['distro'].items():
