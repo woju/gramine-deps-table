@@ -143,6 +143,8 @@ class PackageVersion:
     version:  LooseVersion = None
     backport: LooseVersion = None
 
+    seen_python3_visiblename: bool = False
+
     @property
     def is_lowest(self):
         return self.version is not None and self.version == self.package.min_found
@@ -150,6 +152,20 @@ class PackageVersion:
     def update(self, pkglist):
         for pkg in pkglist:
             version = LooseVersion(pkg['version'].replace('-', '.'))
+
+            # python3 is special, because typically there are multiple available
+            # Python 3 versions. On RHEL-based distros one of them is designated
+            # as python3, and repology returns "visblename": "python3". Make
+            # this version as the reported one.
+            if self.seen_python3_visiblename:
+                if pkg['visiblename'] != 'python3':
+                    continue
+            if (pkg['visiblename'] == 'python3'
+            and pkg['repo'] in (self.distro.repo, self.distro.backports)):
+                self.seen_python3_visiblename = True
+                self.version = None
+                self.backport = None
+
             if pkg['repo'] == self.distro.repo:
 #               print(f'{self.package=} {pkg=} {version=} {self.version=}', file=sys.stderr)
                 self.version = version if self.version is None else max(version, self.version)
