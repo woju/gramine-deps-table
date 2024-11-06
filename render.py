@@ -214,6 +214,8 @@ def main(file):
                             v if package.min_found is None
                             else min(v, package.min_found))
 
+            time.sleep(1)
+
     print(env.get_template('distro-versions.html').render(
         distros=distros,
         packages=packages,
