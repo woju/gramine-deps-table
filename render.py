@@ -151,6 +151,11 @@ class PackageVersion:
 
     def update(self, pkglist):
         for pkg in pkglist:
+            # this is fix for gcc, which for some reason also includes
+            # something called "libiberty"
+            if pkg['status'] in {'untrusted', 'incorrect'}:
+                continue
+
             version = LooseVersion(pkg['version'].replace('-', '.'))
 
             # python3 is special, because typically there are multiple available
