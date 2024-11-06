@@ -188,9 +188,9 @@ def main(file):
                 delay = 1
                 while True:
                     try:
-                        resp = http.get(f'https://repology.org/api/v1/projects/{pkgid}/')
+                        resp = http.get(f'https://repology.org/api/v1/project/{pkgid}')
                         resp.raise_for_status()
-                        pkglist = resp.json()[pkgid]
+                        pkglist = resp.json()
                         break
                     except httpx.ReadTimeout:
                         print(f'  read timeout, delaying {delay} s', file=sys.stderr)
